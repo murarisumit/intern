@@ -1,4 +1,7 @@
+import draw
+import file_op
 import imghdr
+from PIL import Image, ImageDraw
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
@@ -17,9 +20,9 @@ def undo(canvas):
     if len(canvas.data.undoQueue)>0:
         # the previous version of the image
         canvas.data.image=canvas.data.undoQueue[-1]
-    menu.save(canvas)
-    canvas.data.imageForTk=makeImageForTk(canvas)
-    drawImage(canvas)
+    file_op.save(canvas)
+    canvas.data.imageForTk=draw.makeImageForTk(canvas)
+    draw.drawImage(canvas)
 
 def redo(canvas):
     if len(canvas.data.redoQueue)>0:
@@ -30,8 +33,8 @@ def redo(canvas):
         # has become our current image
         lastImage=canvas.data.redoQueue.popleft()
         canvas.data.undoQueue.append(lastImage)
-    canvas.data.imageForTk=makeImageForTk(canvas)
-    drawImage(canvas)
+    canvas.data.imageForTk=draw.makeImageForTk(canvas)
+    draw.drawImage(canvas)
 
 def saveAs(canvas):
     # ask where the user wants to save the file
@@ -61,8 +64,8 @@ def newImage(canvas):
         canvas.data.originalImage=im.copy()
         canvas.data.undoQueue.append(im.copy())
         canvas.data.imageSize=im.size #Original Image dimensions
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
     else:
         messagebox.showinfo(title="Image File",\
         message="Choose an Image File!" , parent=canvas.data.mainWindow)

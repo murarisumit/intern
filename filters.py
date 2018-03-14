@@ -1,4 +1,8 @@
-import preprocessor
+import draw
+import file_op
+from PIL import ImageOps
+import preprocess
+import tkinter as tk
 
 
 def covertGray(canvas):
@@ -18,10 +22,10 @@ def covertGray(canvas):
                 R, G, B= avg, avg, avg
                 data.append((R, G, B))
         canvas.data.image.putdata(data)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def sepia(canvas):
     canvas.data.colourPopToHappen=False
@@ -38,10 +42,10 @@ def sepia(canvas):
                 R, G, B= avg+100, avg+50, avg
                 sepiaData.append((R, G, B))
         canvas.data.image.putdata(sepiaData)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def invert(canvas):
     canvas.data.colourPopToHappen=False
@@ -49,13 +53,12 @@ def invert(canvas):
     canvas.data.drawOn=False
     if canvas.data.image!=None:
         canvas.data.image=ImageOps.invert(canvas.data.image)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def solarize(canvas):
-
     canvas.data.colourPopToHappen=False
     canvas.data.cropPopToHappen=False
     solarizeWindow=tk.Toplevel(canvas.data.mainWindow)
@@ -86,15 +89,15 @@ def performSolarize(canvas, solarizeWindow, solarizeSlider, previousThreshold):
             if canvas.data.image!=None and threshold_!=previousThreshold:
                 canvas.data.image=ImageOps.solarize(canvas.data.image,\
                                                     threshold=threshold_)
-                canvas.data.imageForTk=makeImageForTk(canvas)
-                drawImage(canvas)
+                canvas.data.imageForTk=draw.makeImageForTk(canvas)
+                draw.drawImage(canvas)
             canvas.after(200, lambda: performSolarize(canvas, \
                                 solarizeWindow, solarizeSlider, threshold_))
 
 def closeSolarizeWindow(canvas):
 
     if canvas.data.image!=None:
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
         canvas.data.solarizeWindowClose=True
 
@@ -142,13 +145,13 @@ def posterize(canvas):
                     B=255
                 posterData.append((R, G, B))
         canvas.data.image.putdata(posterData)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def identify_grass(canvas):
-    preprocessor.preprocessor(canvas)
+    preprocess.preprocessor(canvas)
     '''
     This feature will be used to identify grass in a picture
     '''

@@ -1,10 +1,14 @@
-
+import draw
+import file_op
+from PIL import Image, ImageDraw, ImageOps
+import tkinter as tk
 from tkinter import messagebox as tkMessageBox
+
 
 def closeHistWindow(canvas):
 
     if canvas.data.image!=None:
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
         canvas.data.histWindowClose=True
 
@@ -63,8 +67,8 @@ def changeColours(canvas, redSlider, blueSlider, \
             B=B.point(lambda i: i+ int(round(i*scaleB)))
             canvas.data.image = Image.merge(canvas.data.image.mode, (R, G, B))
 
-            canvas.data.imageForTk=makeImageForTk(canvas)
-            drawImage(canvas)
+            canvas.data.imageForTk=draw.makeImageForTk(canvas)
+            draw.drawImage(canvas)
             displayHistogram(canvas, histWindow, histCanvas)
             previousRGB=(sliderValR, sliderValG, sliderValB)
             canvas.after(200, lambda: changeColours(canvas, redSlider,\
@@ -158,10 +162,10 @@ def getPixel(event, canvas):
                         R, G, B=r,g,b
                     data.append((R, G, B))
             canvas.data.image.putdata(data)
-            save(canvas)
+            file_op.save(canvas)
             canvas.data.undoQueue.append(canvas.data.image.copy())
-            canvas.data.imageForTk=makeImageForTk(canvas)
-            drawImage(canvas)
+            canvas.data.imageForTk=draw.makeImageForTk(canvas)
+            draw.drawImage(canvas)
     except:
         pass
     canvas.data.colourPopToHappen=False
@@ -226,10 +230,10 @@ def performCrop(event,canvas):
     int(round((canvas.data.endCropY-canvas.data.imageTopY)*canvas.data.imageScale))))
     canvas.data.endCrop=False
     canvas.data.cropPopToHappen=False
-    save(canvas)
+    file_op.save(canvas)
     canvas.data.undoQueue.append(canvas.data.image.copy())
-    canvas.data.imageForTk=makeImageForTk(canvas)
-    drawImage(canvas)
+    canvas.data.imageForTk=draw.makeImageForTk(canvas)
+    draw.drawImage(canvas)
 
 def rotateFinished(canvas, rotateWindow, rotateSlider, previousAngle):
     if canvas.data.rotateWindowClose==True:
@@ -242,14 +246,14 @@ def rotateFinished(canvas, rotateWindow, rotateSlider, previousAngle):
                canvas.data.angleSelected!= previousAngle:
                 canvas.data.image=\
                 canvas.data.image.rotate(float(canvas.data.angleSelected))
-                canvas.data.imageForTk=makeImageForTk(canvas)
-                drawImage(canvas)
+                canvas.data.imageForTk=draw.makeImageForTk(canvas)
+                draw.drawImage(canvas)
         canvas.after(200, lambda:rotateFinished(canvas,\
                     rotateWindow, rotateSlider, canvas.data.angleSelected) )
 
 def closeRotateWindow(canvas):
     if canvas.data.image!=None:
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
         canvas.data.rotateWindowClose=True
 
@@ -270,7 +274,7 @@ def rotate(canvas):
 
 def closeBrightnessWindow(canvas):
     if canvas.data.image!=None:
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
         canvas.data.brightnessWindowClose=True
 
@@ -289,8 +293,8 @@ def changeBrightness(canvas, brightnessWindow, brightnessSlider, \
             scale=(sliderVal-previousVal)/100.0
             canvas.data.image=canvas.data.image.point(\
                 lambda i: i+ int(round(i*scale)))
-            canvas.data.imageForTk=makeImageForTk(canvas)
-            drawImage(canvas)
+            canvas.data.imageForTk=draw.makeImageForTk(canvas)
+            draw.drawImage(canvas)
             canvas.after(200, \
             lambda: changeBrightness(canvas, brightnessWindow, \
                                      brightnessSlider, sliderVal))
@@ -319,10 +323,10 @@ def reset(canvas):
     ### change back to original image
     if canvas.data.image!=None:
         canvas.data.image=canvas.data.originalImage.copy()
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def mirror(canvas):
     canvas.data.colourPopToHappen=False
@@ -330,10 +334,10 @@ def mirror(canvas):
     canvas.data.drawOn=False
     if canvas.data.image!=None:
         canvas.data.image=ImageOps.mirror(canvas.data.image)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def flip(canvas):
     canvas.data.colourPopToHappen=False
@@ -341,10 +345,10 @@ def flip(canvas):
     canvas.data.drawOn=False
     if canvas.data.image!=None:
         canvas.data.image=ImageOps.flip(canvas.data.image)
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def transpose(canvas):
     canvas.data.colourPopToHappen=False
@@ -366,10 +370,10 @@ def transpose(canvas):
             newData+=addrow
         newimg.putdata(newData)
         canvas.data.image=newimg.copy()
-        save(canvas)
+        file_op.save(canvas)
         canvas.data.undoQueue.append(canvas.data.image.copy())
-        canvas.data.imageForTk=makeImageForTk(canvas)
-        drawImage(canvas)
+        canvas.data.imageForTk=draw.makeImageForTk(canvas)
+        draw.drawImage(canvas)
 
 def identify_grass():
     '''
