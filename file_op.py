@@ -38,14 +38,14 @@ def redo(canvas):
 
 def saveAs(canvas):
     # ask where the user wants to save the file
-    if canvas.data.image!=None:
+    if canvas.data.image != None:
         filename=asksaveasfilename(defaultextension=".jpg")
-        im=canvas.data.image
+        im = canvas.data.image
         im.save(filename)
 
 def save(canvas):
-    if canvas.data.image!=None:
-        im=canvas.data.image
+    if canvas.data.image != None:
+        im = canvas.data.image
         im.save(canvas.data.imageLocation)
 
 def newImage(canvas):

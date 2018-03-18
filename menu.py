@@ -18,22 +18,41 @@ def menu_init(root, canvas):
     editmenu.add_command(label="Redo   Y", command=lambda:file_op.redo(canvas))
     menubar.add_cascade(label="Edit", menu=editmenu)
     root.config(menu=menubar)
-
-    # Filter pull-down Menu
+    
+    #Filter menu
     filtermenu = tk.Menu(menubar, tearoff=0)
-    filtermenu.add_command(label="Grassland", \
+
+    #Binary Morphology pull-down Menu
+    bmormenu = tk.Menu(menubar, tearoff=0)
+    bmormenu.add_command(label="Grassland", \
                            command=lambda:filters.identify_grass(canvas))
-    filtermenu.add_command(label="Black and White", \
-                           command=lambda:filters.covertGray(canvas))
-    filtermenu.add_command(label="Sepia",\
+    bmormenu.add_command(label="Black and White", \
+            command=lambda:filters.covertGray(canvas))
+    bmormenu.add_command(label="Sepia",\
                            command=lambda:filters.sepia(canvas))
-    filtermenu.add_command(label="Invert", \
+    bmormenu.add_command(label="Invert", \
                            command=lambda:filters.invert(canvas))
-    filtermenu.add_command(label="Solarize", \
+    bmormenu.add_command(label="Solarize", \
                            command=lambda:filters.solarize(canvas))
-    filtermenu.add_command(label="Posterize", \
-                           command=lambda:filters.posterize(canvas))
-    menubar.add_cascade(label="Filter", menu=filtermenu)
+    bmormenu.add_command(label="Posterize", \
+                           command=lambda:filters.posterize(canvas))  
+
+    filtermenu.add_cascade(label="Binary-Morphology", menu=bmormenu)                    
+  
+
+    #Gray Level Morphology pull-down Menu
+    gmormenu = tk.Menu(menubar, tearoff=0)
+    gmormenu.add_command(label="dilation", \
+                           command=lambda:filters.dilation(canvas))
+    gmormenu.add_command(label="erosion", \
+            command=lambda:filters.erosion(canvas))
+    gmormenu.add_command(label="Sepia",\
+                           command=lambda:filters.sepia(canvas))
+    gmormenu.add_command(label="Invert", \
+                           command=lambda:filters.invert(canvas))
+    filtermenu.add_cascade(label="GrayLevel-Morphology", menu=gmormenu)   
+    
+    menubar.add_cascade(label="Filter", menu=filtermenu)            
     root.config(menu=menubar)
 
 
