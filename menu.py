@@ -27,16 +27,7 @@ def menu_init(root, canvas):
     bmormenu.add_command(label="Grassland", \
                            command=lambda:filters.identify_grass(canvas))
     bmormenu.add_command(label="Black and White", \
-            command=lambda:filters.covertGray(canvas))
-    bmormenu.add_command(label="Sepia",\
-                           command=lambda:filters.sepia(canvas))
-    bmormenu.add_command(label="Invert", \
-                           command=lambda:filters.invert(canvas))
-    bmormenu.add_command(label="Solarize", \
-                           command=lambda:filters.solarize(canvas))
-    bmormenu.add_command(label="Posterize", \
-                           command=lambda:filters.posterize(canvas))  
-
+            command=lambda:filters.covertGray(canvas))  
     filtermenu.add_cascade(label="Binary-Morphology", menu=bmormenu)                    
   
 
@@ -46,10 +37,6 @@ def menu_init(root, canvas):
                            command=lambda:filters.dilation(canvas))
     gmormenu.add_command(label="erosion", \
             command=lambda:filters.erosion(canvas))
-    gmormenu.add_command(label="Sepia",\
-                           command=lambda:filters.sepia(canvas))
-    gmormenu.add_command(label="Invert", \
-                           command=lambda:filters.invert(canvas))
     filtermenu.add_cascade(label="GrayLevel-Morphology", menu=gmormenu)   
     
     menubar.add_cascade(label="Filter", menu=filtermenu)            
