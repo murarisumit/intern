@@ -49,7 +49,7 @@ def save(canvas):
         im = canvas.data.image
         im.save(canvas.data.imageLocation)
 
-def newImage(original_img,canvas):
+def newImage(orig_canvas, canvas):
     imageName = askopenfilename()
     filetype=""
     #make sure it's an image file
@@ -65,16 +65,16 @@ def newImage(original_img,canvas):
         canvas.data.imageSize=im.size #Original Image dimensions
         canvas.data.imageForTk=draw.makeImageForTk(canvas)
         draw.drawImage(canvas)
-        original_img.data.imageLocation=imageName
-        original_img.data.image=im
-        original_img.data.originalImage=im.copy()
-        original_img.data.imageSize=im.size #Original Image dimensions
-        original_img.data.imageForTk=draw.makeImageForTk(original_img)
-        draw.drawImage(original_img)
+        orig_canvas.data.imageLocation=imageName
+        orig_canvas.data.image=im
+        orig_canvas.data.originalImage=im.copy()
+        orig_canvas.data.imageSize=im.size #Original Image dimensions
+        orig_canvas.data.imageForTk=draw.makeImageForTk(orig_canvas)
+        draw.drawImage(orig_canvas)
     else:
         messagebox.showinfo(title="Image File",\
         message="Choose an Image File!" , parent=canvas.data.mainWindow)
-    olabel = tk.Label(original_img, text='ORIGINAL IMAGE', fg='white', bg='black')
+    olabel = tk.Label(orig_canvas, text='ORIGINAL IMAGE', fg='white', bg='black')
     olabel.pack(side = tk.TOP)
-    original_img.create_window(300, 490, window=olabel)  
+    orig_canvas.create_window(300, 490, window=olabel)  
 
