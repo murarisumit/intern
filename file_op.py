@@ -2,6 +2,7 @@ import draw
 import file_op
 import imghdr
 from PIL import Image, ImageDraw
+import tkinter as tk
 from tkinter import messagebox
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 
@@ -48,14 +49,12 @@ def save(canvas):
         im = canvas.data.image
         im.save(canvas.data.imageLocation)
 
-def newImage(canvas):
+def newImage(original_img,canvas):
     imageName = askopenfilename()
     filetype=""
     #make sure it's an image file
-    try: filetype=imghdr.what(imageName)
-    except:
-        messagebox.showinfo(title="Image File",\
-        message="Choose an Image File!" , parent=canvas.data.mainWindow)
+    filetype = imghdr.what(imageName)
+    
     # restrict filetypes to .jpg, .bmp, etc.
     if filetype in ['jpeg', 'bmp', 'png', 'tiff']:
         canvas.data.imageLocation=imageName
@@ -66,7 +65,16 @@ def newImage(canvas):
         canvas.data.imageSize=im.size #Original Image dimensions
         canvas.data.imageForTk=draw.makeImageForTk(canvas)
         draw.drawImage(canvas)
+        original_img.data.imageLocation=imageName
+        original_img.data.image=im
+        original_img.data.originalImage=im.copy()
+        original_img.data.imageSize=im.size #Original Image dimensions
+        original_img.data.imageForTk=draw.makeImageForTk(original_img)
+        draw.drawImage(original_img)
     else:
         messagebox.showinfo(title="Image File",\
         message="Choose an Image File!" , parent=canvas.data.mainWindow)
+    olabel = tk.Label(original_img, text='ORIGINAL IMAGE', fg='white', bg='black')
+    olabel.pack(side = tk.TOP)
+    original_img.create_window(300, 490, window=olabel)  
 

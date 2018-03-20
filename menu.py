@@ -2,12 +2,13 @@ import tkinter as tk
 import file_op
 import filters
 from filters import *
+from collections import *
 
-def menu_init(root, canvas):
+def menu_init(root, original_img, canvas):
     menubar=tk.Menu(root)
     # File pull-down Menu
     filemenu = tk.Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=lambda:file_op.newImage(canvas))
+    filemenu.add_command(label="New", command=lambda:file_op.newImage(original_img,canvas))
     filemenu.add_command(label="Save", command=lambda:file_op.save(canvas))
     filemenu.add_command(label="Save As", command=lambda:file_op.saveAs(canvas))
     menubar.add_cascade(label="File", menu=filemenu)
